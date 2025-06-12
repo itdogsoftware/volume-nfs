@@ -9,6 +9,7 @@ RUN mkdir -p /exports
 # Copy default NFS export configuration (modify as needed)
 COPY exports /etc/exports
 COPY run_nfs.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/run_nfs.sh
 
 # Start NFS server
 CMD ["/usr/local/bin/run_nfs.sh"]
