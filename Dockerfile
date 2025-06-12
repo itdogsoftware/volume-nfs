@@ -10,4 +10,4 @@ RUN mkdir -p /exports
 COPY exports /etc/exports
 
 # Start NFS server
-CMD ["/usr/sbin/rpc.nfsd", "-N 2", "-N 3", "-N 4"]
+CMD ["/usr/sbin/rpc.nfsd", "-N 2", "-N 3"]
