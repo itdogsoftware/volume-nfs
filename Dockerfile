@@ -1,7 +1,7 @@
 FROM alpine:3.22.0
 
 # Install NFS utilities
-RUN apk add --no-cache nfs-utils
+RUN apk add --no-cache nfs-utils mariadb-client bash
 
 # Create NFS exports directory
 RUN mkdir -p /exports
