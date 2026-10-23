@@ -45,6 +45,17 @@ function start()
     echo "NFS started"
 
     # --- START LSYNCD SYNC AGENT ---
+    # --- INITIALIZE SSH PRIVATE KEY FROM K8S SECRET ---
+    if [ -f /etc/nfs-secrets/id_rsa ]; then
+        echo "Configuring SSH private key..."
+        cp /etc/nfs-secrets/id_rsa /root/.ssh/id_rsa
+        chmod 600 /root/.ssh/id_rsa
+        echo "SSH key initialized successfully."
+    else
+        echo "No SSH private key found at /etc/nfs-secrets/id_rsa. Skipping remote sync setup."
+    fi
+
+    # --------------------------------------------------
     # Ensure drop-in config folder exists on the NFS volume
     mkdir -p /exports/lsyncd.d
 
