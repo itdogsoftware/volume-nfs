@@ -43,11 +43,27 @@ function start()
     /usr/sbin/rpc.nfsd -G 10 -V 3
     /sbin/rpc.statd --no-notify
     echo "NFS started"
+
+    # --- START LSYNCD SYNC AGENT ---
+    # Ensure drop-in config folder exists on the NFS volume
+    mkdir -p /exports/lsyncd.d
+
+    if [ -f /etc/lsyncd.conf.lua ]; then
+        echo "Starting lsyncd daemon..."
+        lsyncd /etc/lsyncd.conf.lua &
+    else
+        echo "Warning: /etc/lsyncd.conf.lua not found, lsyncd skipped."
+    fi
+    # ---------------------------------------
+
 }
 
 function stop()
 {
     echo "Stopping NFS"
+
+    # Kill lsyncd if running
+    kill $(pgrep lsyncd) 2>/dev/null
 
     /sbin/rpc.nfsd 0
     /usr/sbin/exportfs -au
